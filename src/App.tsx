@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import SearchPage from './pages/Search/SearchPage';
 
-const App = () => {
+const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -21,32 +14,9 @@ const App = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View style={styles.container}>
-          <Text style={styles.appNameText}>Marvel App</Text>
-        </View>
-        {}
-        {}
-      </ScrollView>
+      <SearchPage />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-    marginHorizontal: 20,
-    paddingHorizontal: 20,
-    marginTop: 100,
-    paddingVertical: 15,
-    borderRadius: 7,
-    alignItems: 'center',
-  },
-  appNameText: {
-    color: 'white',
-  },
-});
 
 export default App;

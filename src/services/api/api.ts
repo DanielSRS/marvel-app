@@ -1,5 +1,7 @@
 import {privateKey, publicKey} from '../../../apiKeys';
 import md5 from 'md5';
+import axios from 'axios';
+import {charactersProps} from './apiTypes';
 
 interface credentialsProps {
   apikey: string;
@@ -18,3 +20,32 @@ export const getAuthCredentials = (): credentialsProps => {
 };
 
 export const baseUrl = 'https://gateway.marvel.com';
+
+interface getCharactersResponse {
+  sucess: Boolean;
+  response?: charactersProps;
+  error?: any;
+}
+
+export const getCharacters = async (): Promise<getCharactersResponse> => {
+  const credentials = getAuthCredentials();
+  return axios
+    .get<charactersProps>(`${baseUrl}/v1/public/characters`, {
+      params: {
+        ...credentials,
+        limit: 100,
+      },
+    })
+    .then(res => {
+      return {
+        sucess: true,
+        response: res.data,
+      };
+    })
+    .catch(error => {
+      return {
+        sucess: false,
+        error: error,
+      };
+    });
+};

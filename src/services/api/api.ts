@@ -17,4 +17,4 @@ export const getAuthCredentials = (): credentialsProps => {
   };
 };
 
-export const baseUrl = 'http(s)://gateway.marvel.com/';
+export const baseUrl = 'https://gateway.marvel.com';

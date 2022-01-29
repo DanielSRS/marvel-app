@@ -49,3 +49,32 @@ export const getCharacters = async (): Promise<getCharactersResponse> => {
       };
     });
 };
+
+interface CharacterByNameFunction {
+  name: string;
+}
+
+export const getCharacterByName = async (
+  prop: CharacterByNameFunction,
+): Promise<getCharactersResponse> => {
+  const credentials = getAuthCredentials();
+  return axios
+    .get<charactersProps>(`${baseUrl}/v1/public/characters`, {
+      params: {
+        ...credentials,
+        name: prop.name,
+      },
+    })
+    .then(res => {
+      return {
+        sucess: true,
+        response: res.data,
+      };
+    })
+    .catch(error => {
+      return {
+        sucess: false,
+        error: error,
+      };
+    });
+};

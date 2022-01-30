@@ -1,12 +1,30 @@
 import React, {useState} from 'react';
-import {FlatList, Image, ListRenderItemInfo, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ListRenderItemInfo,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
 import styles from './SerachPageStyles';
 import {characterData, charactersProps} from '../../services/api/apiTypes';
 import {getAuthCredentials, getCharacterByName} from '../../services/api/api';
 import Searchbar from '../../components/Searchbar/Searchbar';
 
-const SearchPage = () => {
+import {StackScreenProps} from '@react-navigation/stack';
+
+type RootStackParamList = {
+  Search: undefined;
+  Character: undefined;
+};
+
+type Props = StackScreenProps<RootStackParamList, 'Search'>;
+
+type NavigationProp = Props['navigation'];
+
+const SearchPage = ({navigation}: Props) => {
   const [data, setData] = useState<charactersProps>();
 
   const search = async (name: string) => {
@@ -21,7 +39,7 @@ const SearchPage = () => {
   return (
     <PageContainer>
       <Searchbar onSubmitEditing={search} />
-      <ResultList data={data} />
+      <ResultList data={data} navigation={navigation} />
     </PageContainer>
   );
 };
@@ -36,31 +54,54 @@ const NoResultes = () => {
   );
 };
 
-const searchResultItem = ({item}: ListRenderItemInfo<characterData>) => {
+const SearchResultItem = ({
+  item,
+  navigation,
+}: ListRenderItemInfo<characterData> & {navigation: NavigationProp}) => {
   const credentials = getAuthCredentials();
+
+  const imageClick = () => {
+    navigation.navigate('Character');
+  };
 
   return (
     <View>
       <Text>{item.name}</Text>
-      <Image
-        style={styles.characterCard}
-        width={150}
-        source={{
-          uri: `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`,
-        }}
-      />
+      <TouchableOpacity onPress={imageClick}>
+        <Image
+          style={styles.characterCard}
+          width={150}
+          source={{
+            uri: `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`,
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
 
-const ResultList = ({data}: any) => {
+type resultListParams = {
+  data: charactersProps | undefined;
+  navigation: NavigationProp;
+};
+
+const ResultList = ({data, navigation}: resultListParams) => {
   return (
     <FlatList
       style={styles.flatlist}
       data={data?.data.results}
       keyExtractor={({id}) => id.toString()}
       ListEmptyComponent={NoResultes}
-      renderItem={searchResultItem}
+      renderItem={({item, index, separators}) => {
+        return (
+          <SearchResultItem
+            item={item}
+            index={index}
+            separators={separators}
+            navigation={navigation}
+          />
+        );
+      }}
     />
   );
 };

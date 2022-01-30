@@ -1,21 +1,18 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import SearchPage from './pages/Search/SearchPage';
+import Routes from './routes';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <NavigationContainer>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <SearchPage />
-    </SafeAreaView>
+      <Routes />
+    </NavigationContainer>
   );
 };
 

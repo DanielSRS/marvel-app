@@ -17,7 +17,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 
 type RootStackParamList = {
   Search: undefined;
-  Character: undefined;
+  Character: {character: characterData};
 };
 
 type Props = StackScreenProps<RootStackParamList, 'Search'>;
@@ -61,7 +61,7 @@ const SearchResultItem = ({
   const credentials = getAuthCredentials();
 
   const imageClick = () => {
-    navigation.navigate('Character');
+    navigation.navigate('Character', {character: item});
   };
 
   return (

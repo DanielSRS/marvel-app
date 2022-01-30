@@ -93,17 +93,7 @@ export interface characterData {
     path: string;
     extension: string;
   };
-  comics: {
-    available: number;
-    returned: number;
-    collectionURI: string;
-    items: [
-      {
-        resourceURI: string;
-        name: string;
-      },
-    ];
-  };
+  comics: comics;
   stories: {
     available: number;
     returned: number;
@@ -139,3 +129,15 @@ export interface characterData {
     ];
   };
 }
+
+export type comics = {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: [
+    {
+      resourceURI: string;
+      name: string;
+    },
+  ];
+};

@@ -14,7 +14,11 @@ const App = () => {
         component={SearchPage}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="Character" component={CharacterPage} />
+      <Stack.Screen
+        name="Character"
+        component={CharacterPage}
+        options={{headerTitleAlign: 'center'}}
+      />
     </Stack.Navigator>
   );
 };

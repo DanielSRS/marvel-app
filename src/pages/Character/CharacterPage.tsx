@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 
 import {characterData, comics} from '../../services/api/apiTypes';
@@ -22,7 +22,9 @@ const CharacterPage = ({route, navigation}: Props) => {
     navigation.goBack();
   }
 
-  navigation.setOptions({title: character.name});
+  useEffect(() => {
+    navigation.setOptions({title: character.name});
+  }, [character, navigation]);
 
   const credentials = getAuthCredentials();
 

@@ -27,8 +27,8 @@ type NavigationProp = Props['navigation'];
 const SearchPage = ({navigation}: Props) => {
   const [data, setData] = useState<charactersProps>();
 
-  const search = async (name: string) => {
-    const res = await getCharacterByName({name});
+  const search = async (nameStartsWith: string) => {
+    const res = await getCharacterByName({nameStartsWith});
     if (res.error) {
       console.log('SearchPage: search error: ' + res.error);
       return;

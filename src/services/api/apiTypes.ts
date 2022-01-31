@@ -141,3 +141,32 @@ export type comics = {
     },
   ];
 };
+
+type Enumerate<
+  N extends number,
+  Acc extends number[] = [],
+> = Acc['length'] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc['length']]>;
+
+type Range<F extends number, T extends number> = Exclude<
+  Enumerate<T>,
+  Enumerate<F>
+>;
+
+type maxResults = Range<1, 100>;
+
+export type charactersParams = {
+  limit?: maxResults;
+  apikey?: string;
+  ts?: string;
+  hash?: string;
+  name?: string;
+  nameStartsWith?: string;
+  modifiedSince?: Date;
+  comics?: number;
+  series?: number;
+  events?: number;
+  stories?: number;
+  offset?: number;
+};

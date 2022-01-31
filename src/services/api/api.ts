@@ -1,7 +1,7 @@
 import {privateKey, publicKey} from '../../../apiKeys';
 import md5 from 'md5';
 import axios from 'axios';
-import {charactersProps} from './apiTypes';
+import {charactersProps, charactersParams} from './apiTypes';
 
 interface credentialsProps {
   apikey: string;
@@ -27,13 +27,15 @@ interface getCharactersResponse {
   error?: any;
 }
 
-export const getCharacters = async (): Promise<getCharactersResponse> => {
+export const getCharacters = async (
+  params: charactersParams,
+): Promise<getCharactersResponse> => {
   const credentials = getAuthCredentials();
   return axios
     .get<charactersProps>(`${baseUrl}/v1/public/characters`, {
       params: {
         ...credentials,
-        limit: 100,
+        ...params,
       },
     })
     .then(res => {
@@ -50,19 +52,15 @@ export const getCharacters = async (): Promise<getCharactersResponse> => {
     });
 };
 
-interface CharacterByNameFunction {
-  name: string;
-}
-
 export const getCharacterByName = async (
-  prop: CharacterByNameFunction,
+  params: charactersParams,
 ): Promise<getCharactersResponse> => {
   const credentials = getAuthCredentials();
   return axios
     .get<charactersProps>(`${baseUrl}/v1/public/characters`, {
       params: {
         ...credentials,
-        name: prop.name,
+        ...params,
       },
     })
     .then(res => {

@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
   },
   comicsCard: {
     marginBottom: 30,
+    paddingRight: 0,
+  },
+  comicCardTitle: {
+    alignSelf: 'center',
+    fontSize: 18,
   },
   descriptionContainer: {
     marginTop: 20,
@@ -33,6 +38,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     maxWidth: '100%',
     justifyContent: 'space-between',
+  },
+  itemSeparator: {
+    width: 20,
+  },
+  comicTitle: {
+    width: 200,
   },
 });
 

@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, Image} from 'react-native';
-
-import {characterData, comics} from '../../services/api/apiTypes';
-
+import {characterData, ComicDataWrapper} from '../../services/api/apiTypes';
 import {StackScreenProps} from '@react-navigation/stack';
-
 import styles from './CharacterStyles';
-import {getAuthCredentials} from '../../services/api/api';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  credentialsProps,
+  getAuthCredentials,
+  getComicsByCharacterID,
+} from '../../services/api/api';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 
 type RootStackParamList = {
   Character: {character: characterData};
@@ -53,23 +54,67 @@ const CharacterPage = ({route, navigation}: Props) => {
             </View>
           </View>
         </View>
-        <CharacterComics quadrinhos={character.comics} />
+        <CharacterComics id={character.id} credentials={credentials} />
       </View>
     </ScrollView>
   );
 };
 
-const CharacterComics = ({quadrinhos}: {quadrinhos: comics}) => {
-  const allcomics = quadrinhos.items.map((item, index) => {
-    return (
-      <View key={index}>
-        <Text>{item.name}</Text>
-      </View>
-    );
-  });
+const CharacterComics = ({
+  id,
+  credentials,
+}: {
+  id: number;
+  credentials: credentialsProps;
+}) => {
+  const [comicData, setComicData] = useState<ComicDataWrapper>();
+
+  const searchComics = useCallback(
+    async (characterId = id) => {
+      const res = await getComicsByCharacterID({characterId});
+      if (res.error) {
+        console.log('SearchPage: search error: ' + res.error);
+        console.log('SearchPage: search error: ' + res.error.response);
+        return;
+      }
+      setComicData(res.response);
+    },
+    [id],
+  );
+
+  useEffect(() => {
+    searchComics();
+  }, [searchComics]);
+
+  const itemSeparator = () => {
+    return <View style={styles.itemSeparator} />;
+  };
+
   return (
     <View style={[styles.card, styles.comicsCard]}>
-      {allcomics}
+      <Text style={styles.comicCardTitle}>Comic appearances</Text>
+      <FlatList
+        data={comicData?.data.results}
+        keyExtractor={({id: comicID}) => comicID.toString()}
+        horizontal={true}
+        ItemSeparatorComponent={itemSeparator}
+        renderItem={({item}) => {
+          const imageURL = `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`;
+          return (
+            <View>
+              <Image
+                style={[styles.profilePicture]}
+                width={200}
+                height={307}
+                source={{
+                  uri: imageURL,
+                }}
+              />
+              <Text style={styles.comicTitle}>{item.title}</Text>
+            </View>
+          );
+        }}
+      />
       {}
     </View>
   );

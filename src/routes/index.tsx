@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchPage from '../pages/Search/SearchPage';
 import CharacterPage from '../pages/Character/CharacterPage';
@@ -12,12 +12,12 @@ const App = () => {
       <Stack.Screen
         name="Search"
         component={SearchPage}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Character"
         component={CharacterPage}
-        options={{headerTitleAlign: 'center'}}
+        options={{ headerTitleAlign: 'center' }}
       />
     </Stack.Navigator>
   );

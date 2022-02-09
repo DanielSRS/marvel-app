@@ -1,22 +1,22 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, Image} from 'react-native';
-import {characterData, ComicDataWrapper} from '../../services/api/apiTypes';
-import {StackScreenProps} from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, Image } from 'react-native';
+import { characterData, ComicDataWrapper } from '../../services/api/apiTypes';
+import { StackScreenProps } from '@react-navigation/stack';
 import styles from './CharacterStyles';
 import {
   credentialsProps,
   getAuthCredentials,
   getComicsByCharacterID,
 } from '../../services/api/api';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 type RootStackParamList = {
-  Character: {character: characterData};
+  Character: { character: characterData };
 };
 
 type Props = StackScreenProps<RootStackParamList, 'Character'>;
 
-const CharacterPage = ({route, navigation}: Props) => {
+const CharacterPage = ({ route, navigation }: Props) => {
   const character = route.params.character;
 
   if (!character) {
@@ -24,7 +24,7 @@ const CharacterPage = ({route, navigation}: Props) => {
   }
 
   useEffect(() => {
-    navigation.setOptions({title: character.name});
+    navigation.setOptions({ title: character.name });
   }, [character, navigation]);
 
   const credentials = getAuthCredentials();
@@ -71,7 +71,7 @@ const CharacterComics = ({
 
   const searchComics = useCallback(
     async (characterId = id) => {
-      const res = await getComicsByCharacterID({characterId});
+      const res = await getComicsByCharacterID({ characterId });
       if (res.error) {
         console.log('SearchPage: search error: ' + res.error);
         console.log('SearchPage: search error: ' + res.error.response);
@@ -95,10 +95,10 @@ const CharacterComics = ({
       <Text style={styles.comicCardTitle}>Comic appearances</Text>
       <FlatList
         data={comicData?.data.results}
-        keyExtractor={({id: comicID}) => comicID.toString()}
+        keyExtractor={({ id: comicID }) => comicID.toString()}
         horizontal={true}
         ItemSeparatorComponent={itemSeparator}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           const imageURL = `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`;
           return (
             <View>

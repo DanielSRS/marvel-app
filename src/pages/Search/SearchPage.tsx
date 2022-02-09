@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   Image,
@@ -9,28 +9,29 @@ import {
 } from 'react-native';
 
 import styles from './SerachPageStyles';
-import {characterData, charactersProps} from '../../services/api/apiTypes';
-import {getAuthCredentials, getCharacterByName} from '../../services/api/api';
+import { characterData, charactersProps } from '../../services/api/apiTypes';
+import { getAuthCredentials, getCharacterByName } from '../../services/api/api';
 import Searchbar from '../../components/Searchbar/Searchbar';
 
-import {StackScreenProps} from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 
 type RootStackParamList = {
   Search: undefined;
-  Character: {character: characterData};
+  Character: { character: characterData };
 };
 
 type Props = StackScreenProps<RootStackParamList, 'Search'>;
 
 type NavigationProp = Props['navigation'];
 
-const SearchPage = ({navigation}: Props) => {
+const SearchPage = ({ navigation }: Props) => {
   const [data, setData] = useState<charactersProps>();
 
   const search = async (nameStartsWith: string) => {
-    const res = await getCharacterByName({nameStartsWith});
+    const res = await getCharacterByName({ nameStartsWith });
     if (res.error) {
-      console.log('SearchPage: search error: ' + res.error);
+      console.log('SearchPage: search error: ');
+      console.log(res.error);
       return;
     }
     setData(res.response);
@@ -57,11 +58,11 @@ const NoResultes = () => {
 const SearchResultItem = ({
   item,
   navigation,
-}: ListRenderItemInfo<characterData> & {navigation: NavigationProp}) => {
+}: ListRenderItemInfo<characterData> & { navigation: NavigationProp }) => {
   const credentials = getAuthCredentials();
 
   const imageClick = () => {
-    navigation.navigate('Character', {character: item});
+    navigation.navigate('Character', { character: item });
   };
 
   return (
@@ -85,14 +86,14 @@ type resultListParams = {
   navigation: NavigationProp;
 };
 
-const ResultList = ({data, navigation}: resultListParams) => {
+const ResultList = ({ data, navigation }: resultListParams) => {
   return (
     <FlatList
       style={styles.flatlist}
       data={data?.data.results}
-      keyExtractor={({id}) => id.toString()}
+      keyExtractor={({ id }) => id.toString()}
       ListEmptyComponent={NoResultes}
-      renderItem={({item, index, separators}) => {
+      renderItem={({ item, index, separators }) => {
         return (
           <SearchResultItem
             item={item}
@@ -106,7 +107,7 @@ const ResultList = ({data, navigation}: resultListParams) => {
   );
 };
 
-const PageContainer: React.FC = ({children}) => {
+const PageContainer: React.FC = ({ children }) => {
   return <View style={styles.container}>{children}</View>;
 };
 

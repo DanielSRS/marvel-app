@@ -14,13 +14,9 @@ import { getAuthCredentials, getCharacterByName } from '../../services/api/api';
 import Searchbar from '../../components/Searchbar/Searchbar';
 
 import { StackScreenProps } from '@react-navigation/stack';
+import { NavigationParams } from '../../routes';
 
-type RootStackParamList = {
-  Search: undefined;
-  Character: { character: characterData };
-};
-
-type Props = StackScreenProps<RootStackParamList, 'Search'>;
+type Props = StackScreenProps<NavigationParams, 'Search'>;
 
 type NavigationProp = Props['navigation'];
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { characterData, ComicDataWrapper } from '../../services/api/apiTypes';
+import { ComicDataWrapper } from '../../services/api/apiTypes';
 import { StackScreenProps } from '@react-navigation/stack';
 import styles from './CharacterStyles';
 import {
@@ -9,12 +9,9 @@ import {
   getComicsByCharacterID,
 } from '../../services/api/api';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { NavigationParams } from '../../routes';
 
-type RootStackParamList = {
-  Character: { character: characterData };
-};
-
-type Props = StackScreenProps<RootStackParamList, 'Character'>;
+type Props = StackScreenProps<NavigationParams, 'Character'>;
 
 const CharacterPage = ({ route, navigation }: Props) => {
   const character = route.params.character;

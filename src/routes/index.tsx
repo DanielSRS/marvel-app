@@ -3,6 +3,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchPage from '../pages/Search/SearchPage';
 import CharacterPage from '../pages/Character/CharacterPage';
+import { characterData } from '../services/api/apiTypes';
+
+export type NavigationParams = {
+  Search?: undefined;
+  Character: { character: characterData };
+};
 
 const Stack = createStackNavigator();
 

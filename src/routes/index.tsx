@@ -3,11 +3,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchPage from '../pages/Search/SearchPage';
 import CharacterPage from '../pages/Character/CharacterPage';
-import { characterData } from '../services/api/apiTypes';
+import ComicPage from '../pages/Comic/ComicPage';
+import { characterData, Comic } from '../services/api/apiTypes';
 
 export type NavigationParams = {
   Search?: undefined;
   Character: { character: characterData };
+  Comic: { comic: Comic };
 };
 
 const Stack = createStackNavigator();
@@ -24,6 +26,17 @@ const App = () => {
         name="Character"
         component={CharacterPage}
         options={{ headerTitleAlign: 'center' }}
+      />
+      <Stack.Screen
+        name="Comic"
+        component={ComicPage}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: 'transparent',
+            elevation: 0,
+          },
+        }}
       />
     </Stack.Navigator>
   );

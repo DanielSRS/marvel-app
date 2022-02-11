@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { ComicDataWrapper } from '../../services/api/apiTypes';
 import { StackScreenProps } from '@react-navigation/stack';
 import styles from './CharacterStyles';
@@ -8,10 +15,14 @@ import {
   getAuthCredentials,
   getComicsByCharacterID,
 } from '../../services/api/api';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { NavigationParams } from '../../routes';
 
 type Props = StackScreenProps<NavigationParams, 'Character'>;
+
+type comicPageParams = StackScreenProps<
+  NavigationParams,
+  'Comic'
+>['route']['params'];
 
 const CharacterPage = ({ route, navigation }: Props) => {
   const character = route.params.character;
@@ -27,6 +38,12 @@ const CharacterPage = ({ route, navigation }: Props) => {
   const credentials = getAuthCredentials();
 
   const imageURL = `${character.thumbnail.path}.${character.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`;
+
+  const onComicClick = (params: comicPageParams) => {
+    navigation.navigate('Comic', {
+      comic: params.comic,
+    });
+  };
 
   return (
     <ScrollView>
@@ -51,7 +68,11 @@ const CharacterPage = ({ route, navigation }: Props) => {
             </View>
           </View>
         </View>
-        <CharacterComics id={character.id} credentials={credentials} />
+        <CharacterComics
+          id={character.id}
+          credentials={credentials}
+          onPress={onComicClick}
+        />
       </View>
     </ScrollView>
   );
@@ -60,9 +81,11 @@ const CharacterPage = ({ route, navigation }: Props) => {
 const CharacterComics = ({
   id,
   credentials,
+  onPress = () => {},
 }: {
   id: number;
   credentials: credentialsProps;
+  onPress?: (params: comicPageParams) => void;
 }) => {
   const [comicData, setComicData] = useState<ComicDataWrapper>();
 
@@ -97,8 +120,12 @@ const CharacterComics = ({
         ItemSeparatorComponent={itemSeparator}
         renderItem={({ item }) => {
           const imageURL = `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`;
+          const handleClick = () => {
+            onPress({ comic: item });
+          };
+
           return (
-            <View>
+            <TouchableOpacity onPress={handleClick}>
               <Image
                 style={[styles.profilePicture]}
                 width={200}
@@ -108,7 +135,7 @@ const CharacterComics = ({
                 }}
               />
               <Text style={styles.comicTitle}>{item.title}</Text>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />

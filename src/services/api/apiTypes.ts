@@ -209,7 +209,7 @@ export type Comic = {
   issueNumber: number;
   variantDescription: string;
   description: string;
-  modified: Date;
+  modified: string;
   isbn: string;
   upc: string;
   diamondCode: string;
@@ -279,13 +279,7 @@ export type Comic = {
     available: number;
     returned: number;
     collectionURI: string;
-    items: [
-      {
-        resourceURI: string;
-        name: string;
-        role: string;
-      },
-    ];
+    items: [ComicCreatorsItem];
   };
   characters: {
     available: number;
@@ -323,3 +317,9 @@ export type Comic = {
     ];
   };
 };
+
+export interface ComicCreatorsItem {
+  resourceURI: string;
+  name: string;
+  role: string;
+}

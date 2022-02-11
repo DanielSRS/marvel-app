@@ -61,6 +61,8 @@ const SearchResultItem = ({
     navigation.navigate('Character', { character: item });
   };
 
+  const imageURL = `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`;
+
   return (
     <View>
       <Text>{item.name}</Text>
@@ -69,7 +71,7 @@ const SearchResultItem = ({
           style={styles.characterCard}
           width={150}
           source={{
-            uri: `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`,
+            uri: imageURL,
           }}
         />
       </TouchableOpacity>

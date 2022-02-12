@@ -66,6 +66,7 @@ const Creators = ({ creators }: { creators: [ComicCreatorsItem] }) => {
   const creatorStyles = StyleSheet.create({
     container: {
       paddingTop: 10,
+      paddingBottom: 50,
     },
     sectionTitle: {
       fontSize: 18,

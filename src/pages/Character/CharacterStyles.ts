@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   card: {
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     borderRadius: 10,
+    width: 150,
   },
   comicsCard: {
     marginBottom: 30,

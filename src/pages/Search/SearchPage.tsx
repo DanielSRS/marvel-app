@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   FlatList,
-  Image,
   ListRenderItemInfo,
   Text,
   View,
@@ -15,6 +14,7 @@ import Searchbar from '../../components/Searchbar/Searchbar';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { NavigationParams } from '../../routes';
+import FastImage from 'react-native-fast-image';
 
 type Props = StackScreenProps<NavigationParams, 'Search'>;
 
@@ -54,6 +54,7 @@ const NoResultes = () => {
 const SearchResultItem = ({
   item,
   navigation,
+  index,
 }: ListRenderItemInfo<characterData> & { navigation: NavigationProp }) => {
   const credentials = getAuthCredentials();
 
@@ -67,11 +68,12 @@ const SearchResultItem = ({
     <View>
       <Text>{item.name}</Text>
       <TouchableOpacity onPress={imageClick}>
-        <Image
+        <FastImage
           style={styles.characterCard}
-          width={150}
           source={{
             uri: imageURL,
+            priority:
+              index === 1 ? FastImage.priority.high : FastImage.priority.normal,
           }}
         />
       </TouchableOpacity>

@@ -2,7 +2,6 @@ import React from 'react';
 import { useHeaderHeight } from '@react-navigation/elements';
 import {
   Dimensions,
-  Image,
   ImageBackground,
   ScrollView,
   Text,
@@ -12,6 +11,7 @@ import ComicHelper, { ComicPageProps } from './ComicHelper';
 import styles from './ComicStyles';
 import { ComicCreatorsItem } from '../../services/api/apiTypes';
 import { StyleSheet } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 const ComicPage = (props: ComicPageProps) => {
   const { comic, comicCoverImageURL } = ComicHelper(props);
@@ -55,7 +55,7 @@ const PageBackground: React.FunctionComponent<{
 
 const Cover = ({ comicCoverImageURL }: { comicCoverImageURL: string }) => {
   return (
-    <Image
+    <FastImage
       style={[styles.comicCover, { aspectRatio: 553 / 850 }]}
       source={{ uri: comicCoverImageURL }}
     />

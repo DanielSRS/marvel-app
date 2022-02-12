@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
-  Image,
   FlatList,
   ScrollView,
   TouchableOpacity,
@@ -16,6 +15,7 @@ import {
   getComicsByCharacterID,
 } from '../../services/api/api';
 import { NavigationParams } from '../../routes';
+import FastImage from 'react-native-fast-image';
 
 type Props = StackScreenProps<NavigationParams, 'Character'>;
 
@@ -50,9 +50,8 @@ const CharacterPage = ({ route, navigation }: Props) => {
       <View>
         <View style={[styles.card, styles.profileCard]}>
           <View style={styles.pictureContainer}>
-            <Image
+            <FastImage
               style={styles.profilePicture}
-              width={150}
               source={{
                 uri: imageURL,
               }}
@@ -118,7 +117,7 @@ const CharacterComics = ({
         keyExtractor={({ id: comicID }) => comicID.toString()}
         horizontal={true}
         ItemSeparatorComponent={itemSeparator}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           const imageURL = `${item.thumbnail.path}.${item.thumbnail.extension}?apikey=${credentials.apikey}&ts=${credentials.ts}&hash=${credentials.hash}`;
           const handleClick = () => {
             onPress({ comic: item });
@@ -126,12 +125,14 @@ const CharacterComics = ({
 
           return (
             <TouchableOpacity onPress={handleClick}>
-              <Image
-                style={[styles.profilePicture]}
-                width={200}
-                height={307}
+              <FastImage
+                style={[styles.profilePicture, { width: 200, height: 307 }]}
                 source={{
                   uri: imageURL,
+                  priority:
+                    index === 1
+                      ? FastImage.priority.high
+                      : FastImage.priority.normal,
                 }}
               />
               <Text style={styles.comicTitle}>{item.title}</Text>

@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     marginTop: 30,
-    paddingHorizontal: 20,
   },
   flatlist: {
     paddingTop: 30,
     marginBottom: 50,
+    paddingHorizontal: 20,
   },
   characterCard: {
     backgroundColor: '#CCC',
@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 100,
+  },
+  flatlistColumnWrapper: {
+    justifyContent: 'space-around',
+    paddingBottom: 20,
   },
 });
 

@@ -92,6 +92,8 @@ const ResultList = ({ data, navigation }: resultListParams) => {
     <FlatList
       style={styles.flatlist}
       data={data?.data.results}
+      numColumns={2}
+      columnWrapperStyle={styles.flatlistColumnWrapper}
       keyExtractor={({ id }) => id.toString()}
       ListEmptyComponent={NoResultes}
       renderItem={({ item, index, separators }) => {

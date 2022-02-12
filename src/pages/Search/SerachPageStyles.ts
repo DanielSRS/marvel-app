@@ -6,14 +6,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   flatlist: {
-    marginTop: 30,
-    height: '100%',
+    paddingTop: 30,
+    marginBottom: 50,
   },
   characterCard: {
     backgroundColor: '#CCC',
     minHeight: 200,
     borderRadius: 7,
     width: 150,
+  },
+  footer: {
+    height: 100,
   },
 });
 

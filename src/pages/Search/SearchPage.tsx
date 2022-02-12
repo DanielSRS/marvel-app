@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 
 import styles from './SerachPageStyles';
@@ -103,12 +104,17 @@ const ResultList = ({ data, navigation }: resultListParams) => {
           />
         );
       }}
+      ListFooterComponent={FooterComponent}
     />
   );
 };
 
 const PageContainer: React.FC = ({ children }) => {
-  return <View style={styles.container}>{children}</View>;
+  return <SafeAreaView style={styles.container}>{children}</SafeAreaView>;
+};
+
+const FooterComponent = () => {
+  return <View style={styles.footer} />;
 };
 
 export default SearchPage;
